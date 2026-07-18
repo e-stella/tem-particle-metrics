@@ -1,0 +1,9 @@
+# Tier-2 (SAM-class segmentation) — HEAVY, isolated from the tier-1 stack.
+# NP-SAM requires Python <3.13; install in a dedicated env, e.g.:
+#   mamba create -y -n tem-tier2 python=3.11
+#   /path/to/envs/tem-tier2/bin/python -m pip install -r requirements-tier2.txt
+# Pulls torch + SAM; SAM weights download on first segment() (out of git).
+npsam
+scikit-image
+pandas
+matplotlib

@@ -1,0 +1,18 @@
+# GUI (napari desktop reviewer) — ISOLATED env, Phase-1 MVP.
+# Create it (conda-forge handles napari + Qt cleanly):
+#   mamba create -n tem-gui -c conda-forge python=3.11 "napari>=0.5" pyqt \
+#     scikit-image pandas matplotlib numpy scipy
+#   /path/to/envs/tem-gui/bin/python -m pip install rosettasciio
+# Run:
+#   /path/to/envs/tem-gui/bin/python gui/napari_review.py [folder]
+#
+# Phase-1 is tier-1 (classical) in-process — no torch. Tier-2 (NP-SAM) and the
+# forward-spectrum panel arrive later as subprocess calls to their own envs.
+napari>=0.5
+pyqt5
+rosettasciio
+scikit-image
+pandas
+matplotlib
+numpy
+scipy

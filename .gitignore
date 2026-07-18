@@ -1,0 +1,41 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# --- Lab data: NEVER commit micrographs or measurements (unpublished) ---
+data/
+*.dm3
+*.dm4
+*.emd
+*.ser
+*.mrc
+*.xls
+*.xlsx
+
+# --- Model weights (download on demand) ---
+weights/
+*.pth
+*.pt
+*.onnx
+
+# --- Generated artifacts (reproducible via scripts/) ---
+outputs/
+# batch run folders: per-frame overlays/labels/tables + reviewed CSVs (lab data)
+runs/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+.claude/settings.local.json
+
+# Progress reports embed micrograph overlays (unpublished lab data)
+reports/
+
+# Dev-only: lab briefing + local dev notes (never public)
+CLAUDE.md
+dev/
+.pytest_cache/

@@ -1,0 +1,13 @@
+# tier 1 (classical pipeline) — light
+numpy
+scipy
+scikit-image
+matplotlib
+pandas
+# TEM file formats (dm3/dm4/emd/ser + calibration metadata)
+rosettasciio
+# tests
+pytest
+# tier 2 (SAM-class segmentation) — heavy, optional; install when needed
+# torch
+# segment-anything

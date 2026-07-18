@@ -1,0 +1,40 @@
+# Consolidated single environment for the TEM particle-metrics desktop app
+# (segment + review + export in ONE napari window — gui/napari_app.py).
+#
+# Verified 2026-07-18: tier-1 (classical) + tier-2 (NP-SAM/FastSAM) + napari 0.8
+# all run in one process on Python 3.11 / numpy 1.26 / PyQt6. See
+# docs/batch_design.md ("Consolidated env").
+#
+# Build it (also pre-fetches the FastSAM weights):
+#     bash scripts/make_app_env.sh
+# or manually:
+#     conda env create -f environment.yml
+#     conda run -n tem-app python gui/napari_app.py
+#
+# Notes / sharp edges (handled for you):
+#   * The stack runs on PyQt6 — npsam hard-requires it and napari follows.
+#     `conda napari` also pulls PyQt5; the app forces PyQt6 at startup
+#     (gui/_qtapi.py), so you never set QT_API by hand.
+#   * numpy is pinned to 1.26 — the common version the npsam/torch/napari
+#     stack agrees on; do not bump it to 2.x without re-validating.
+#   * FastSAM weights (~138 MB) download on first tier-2 use with an
+#     interactive prompt; make_app_env.sh fetches them ahead of time.
+#
+# This env is for LAB DISTRIBUTION. Development still uses the split envs
+# (dev / tem-tier2 / tem-gui) for faster iteration.
+name: tem-app
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - napari>=0.5
+  - scikit-image
+  - pandas
+  - matplotlib
+  - scipy
+  - rosettasciio
+  - pytest
+  - pip
+  - pip:
+      - npsam

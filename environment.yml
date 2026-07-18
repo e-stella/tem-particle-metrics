@@ -1,9 +1,8 @@
 # Consolidated single environment for the TEM particle-metrics desktop app
 # (segment + review + export in ONE napari window — gui/napari_app.py).
 #
-# Verified 2026-07-18: tier-1 (classical) + tier-2 (NP-SAM/FastSAM) + napari 0.8
-# all run in one process on Python 3.11 / numpy 1.26 / PyQt6. See
-# docs/batch_design.md ("Consolidated env").
+# Verified: tier-1 (classical) + tier-2 (NP-SAM/FastSAM) + napari 0.8 all run
+# in one process on Python 3.11 / numpy 1.26 / PyQt6.
 #
 # Build it (also pre-fetches the FastSAM weights):
 #     bash scripts/make_app_env.sh

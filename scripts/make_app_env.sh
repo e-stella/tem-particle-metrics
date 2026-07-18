@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the consolidated `tem-app` env for the desktop app (segment + review +
 # export in one napari window). Reproduces the validated stack:
-# Python 3.11 / numpy 1.26 / PyQt6 / napari + npsam (docs/batch_design.md).
+# Python 3.11 / numpy 1.26 / PyQt6 / napari + npsam.
 #
 #     bash scripts/make_app_env.sh
 #     conda run -n tem-app python gui/napari_app.py

@@ -40,9 +40,9 @@ conda run -n tem-app python gui/napari_app.py
 In this env tier-2 runs **in-process** (no subprocess) — the app detects npsam
 and runs it in-place (`gui_engine._tier2_python`). The stack is uniform **PyQt6**
 (npsam requires it; napari follows); the app selects it automatically
-(`gui/_qtapi.py`), so no `QT_API` juggling. See `../environment.yml` and
-`docs/batch_design.md` for the recipe and its sharp edges (PyQt6, numpy 1.26
-pin, weight pre-fetch). Development still uses the split envs for faster iteration.
+(`gui/_qtapi.py`), so no `QT_API` juggling. See `../environment.yml` for the
+recipe and its sharp edges (PyQt6, numpy 1.26 pin, weight pre-fetch).
+Development still uses the split envs for faster iteration.
 
 ## Lower-level GUIs
 

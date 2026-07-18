@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Headless batch segmenter: a folder of frames -> a run folder + manifest.
 
-Stage ① of the batch split (docs/batch_design.md). Runs UNATTENDED: for every
+Stage ① of the batch split. Runs UNATTENDED: for every
 frame writes <stem>_particles.csv + _labels.npy + _overlay.png and one manifest
 row. Resumable — re-running skips frames already `done`, so a crash loses
 nothing. The light reviewer (napari_batch_review.py) and aggregator
@@ -9,7 +9,7 @@ nothing. The light reviewer (napari_batch_review.py) and aggregator
 
 Tier-1 (classical) runs anywhere. Tier-2 (NP-SAM/FastSAM) must run in the
 tem-tier2 env; tiling (crop_and_enlarge) is ON by default for tier-2 — the
-dense-frame recall lever (docs/batch_design.md).
+dense-frame recall lever.
 
     # tier-1 (dev/tem-gui env):
     python scripts/segment_folder.py <images/> --out-dir <run/> --tier 1 [--nm-per-px N | --bar-length-nm N]

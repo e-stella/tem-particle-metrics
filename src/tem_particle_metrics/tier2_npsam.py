@@ -109,7 +109,7 @@ def segment_npsam(
     whole downscaled frame — the recall lever for DENSE fields, where the
     backend (FastSAM here — `pps` is a no-op for it) otherwise smears crowded
     particles together. ~4–5× slower; safe on sparse frames (no over-count).
-    See docs/batch_design.md; the batch engine turns it on for tier-2.
+    The batch engine turns it on for tier-2.
     """
     masks = _run_npsam(
         gray, exclude=exclude, device=device, sam_model=sam_model, pps=pps,

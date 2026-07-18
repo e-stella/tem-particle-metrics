@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Aggregate a run folder's per-frame tables into per-SAMPLE tables.
 
-Stage ③ of the batch split (docs/batch_design.md) — the "5 frames → 1 sample"
+Stage ③ of the batch split — the "5 frames → 1 sample"
 step. For each sample_id in the manifest, pool the KEPT particles across its
 frames into `samples/<sample_id>_sample.csv` (the per-particle table the sister
 optics repo consumes) plus `samples/summary.csv` (mean±sd/n per sample).
@@ -89,7 +89,7 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("run_dir", help="run folder produced by segment_folder.py")
     ap.add_argument("--calibrate", action="store_true",
-                    help="apply the tier-2 size-calibration factor (docs/size_calibration.md)")
+                    help="apply the tier-2 size-calibration factor")
     args = ap.parse_args(argv[1:])
     aggregate(args.run_dir, calibrate=args.calibrate)
     return 0

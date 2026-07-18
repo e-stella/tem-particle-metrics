@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Light batch reviewer — Stage ② of the batch split (docs/batch_design.md).
+"""Light batch reviewer — Stage ② of the batch split.
 
 Opens a RUN FOLDER produced by scripts/segment_folder.py (a manifest.csv +
 per-frame labels/csv/overlay) and lets a human curate it. It does NOT segment

@@ -1,7 +1,7 @@
 """Batch-mode plumbing: a run folder + a manifest that ties frames into samples.
 
 The manifest (`<run>/manifest.csv`) is the spine of the headless-engine /
-light-reviewer split (docs/batch_design.md). One row per frame; the engine
+light-reviewer split. One row per frame; the engine
 fills seg_* and status, the reviewer flips review_status, the aggregator reads
 it to pool frames into per-sample tables. No torch here — importable in the
 light review/aggregate context.

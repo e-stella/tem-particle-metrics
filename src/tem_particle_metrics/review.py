@@ -6,7 +6,7 @@ recomputes summary stats over kept particles only, and round-trips the
 decisions through a `manual_status` column in the CSV. Nothing is deleted —
 a dropped particle stays in the table, flagged out of the statistics.
 
-The interactive matplotlib window lives in scripts/review.py; this module is
+The interactive review UI is in the napari app; this module is
 the pure, testable core (no GUI backend needed).
 """
 from __future__ import annotations

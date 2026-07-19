@@ -7,9 +7,12 @@ ground truth; output feeds the physics forward model in
 [aunp_speciation](https://github.com/e-stella/aunp_speciation), which
 predicts UV-Vis spectra from these tables with zero fitted parameters.
 
-See `CLAUDE.md` for the full project briefing (data contract, pipeline
-plan, validation strategy). Raw micrographs and measurements are lab data
-and are never committed.
+## Demo
+
+[![Watch the demo](https://img.youtube.com/vi/t74QXefrVq4/hqdefault.jpg)](https://youtu.be/t74QXefrVq4)
+
+Raw micrographs and measurements are lab data and are never committed to this
+repository.
 
 ## Quick start (fresh machine)
 

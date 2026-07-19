@@ -44,6 +44,31 @@ def apply_size_calibration(df: pd.DataFrame, factor: float = SIZE_CALIBRATION_FA
     return out
 
 
+# --- auto-route: pick a tier from a frame's crowding -----------------------
+# Fraction of particles in contact above which tier-1's watershed tends to
+# under-segment, so SAM (tier-2) separation earns its keep. Calibrated on
+# validation data: sparse fields sit near 0.0–0.4, aggregated/overlapping
+# ones at 0.5–1.0. Tunable.
+AUTO_CROWDING_THRESHOLD = 0.5
+
+
+def crowding_score(df: pd.DataFrame) -> float:
+    """A frame's crowding proxy: the fraction of particles in touching groups.
+
+    ~0.1 = sparse / well-separated (tier-1 is clean; tier-2 tiling would just
+    add speckle false-positives); ≥~0.5 = aggregated / overlapping (tier-1
+    merges, tier-2 separation helps). Computed from a tier-1 per-particle table.
+    """
+    if df is None or len(df) == 0 or "touching_group_id" not in df.columns:
+        return 0.0
+    return float(df["touching_group_id"].notna().mean())
+
+
+def decide_tier(crowding: float, threshold: float = AUTO_CROWDING_THRESHOLD) -> int:
+    """Route one frame: tier-2 when crowded past `threshold`, else tier-1."""
+    return 2 if crowding >= threshold else 1
+
+
 def classify_shape(circularity: float, aspect_ratio: float, solidity: float) -> str:
     """Rule-based class from mask geometry: sphere | rod | triangle | irregular.
 

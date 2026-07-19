@@ -18,7 +18,7 @@ MANIFEST_NAME = "manifest.csv"
 
 # one row per frame
 MANIFEST_COLUMNS = [
-    "frame_path", "stem", "sample_id", "tier", "tiling",
+    "frame_path", "stem", "sample_id", "tier", "tiling", "crowding",
     "nm_per_px", "calibration_source",
     "n_particles", "mean_nm", "sd_nm",
     "seg_status", "review_status", "seg_time_s", "timestamp",
@@ -56,8 +56,12 @@ def manifest_path(run_dir: str | Path) -> Path:
     return Path(run_dir) / MANIFEST_NAME
 
 
-def build_manifest(image_paths, *, tier: int, tiling: bool) -> pd.DataFrame:
-    """Fresh manifest (all frames pending) for a list of image paths."""
+def build_manifest(image_paths, *, tier, tiling: bool) -> pd.DataFrame:
+    """Fresh manifest (all frames pending) for a list of image paths.
+
+    `tier` is the requested mode (1, 2, or "auto"); in `auto` the engine
+    overwrites each row's `tier` with the tier it actually used per frame.
+    """
     rows = []
     for p in image_paths:
         p = Path(p)
@@ -67,6 +71,7 @@ def build_manifest(image_paths, *, tier: int, tiling: bool) -> pd.DataFrame:
             "sample_id": sample_id_from_filename(p.stem),
             "tier": tier,
             "tiling": bool(tiling),
+            "crowding": pd.NA,
             "nm_per_px": pd.NA, "calibration_source": pd.NA,
             "n_particles": pd.NA, "mean_nm": pd.NA, "sd_nm": pd.NA,
             "seg_status": "pending", "review_status": "unreviewed",

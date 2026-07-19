@@ -55,7 +55,7 @@ def default_run_dir(folder: str | Path, tier: int) -> Path:
 def batch_engine_command(
     folder: str | Path,
     run_dir: str | Path,
-    tier: int,
+    tier: int | str,
     *,
     tiling: bool | None = None,
     nm_per_px: float | None = None,
@@ -68,9 +68,9 @@ def batch_engine_command(
     lets the single-window app fire the engine as ONE background process
     (model loaded once) rather than per image.
     """
-    py = _tier2_python() if tier == 2 else sys.executable
+    py = _tier2_python() if tier in (2, "auto") else sys.executable
     cmd = [py, str(_ENGINE_CLI), str(folder), "--out-dir", str(run_dir), "--tier", str(tier)]
-    if tier == 2 and tiling is not None:
+    if tier in (2, "auto") and tiling is not None:
         cmd.append("--tiling" if tiling else "--no-tiling")
     if nm_per_px is not None:
         cmd += ["--nm-per-px", str(nm_per_px)]

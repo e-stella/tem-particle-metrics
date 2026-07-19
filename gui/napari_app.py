@@ -33,7 +33,7 @@ from qtpy.QtWidgets import (  # noqa: E402
 
 from tem_particle_metrics import batch  # noqa: E402
 from tem_particle_metrics.gui_engine import (  # noqa: E402
-    TIER2_PYTHON, batch_engine_command, default_run_dir,
+    TIER2_PYTHON, _tier2_python, batch_engine_command, default_run_dir,
 )
 from napari_batch_review import BatchReviewDock  # noqa: E402
 from aggregate_samples import aggregate  # noqa: E402
@@ -73,7 +73,11 @@ class OrchestratorDock(QWidget):
         layout.addWidget(self.folder_label)
 
         self.tier_combo = QComboBox()
-        self.tier_combo.addItems(["Tier 1 — classical (fast)", "Tier 2 — NP-SAM (aggregates)"])
+        self.tier_combo.addItems([
+            "Tier 1 — classical (fast)",
+            "Tier 2 — NP-SAM (aggregates)",
+            "Auto — tier-1, escalate dense frames",
+        ])
         layout.addWidget(self.tier_combo)
 
         self.tiling_check = QCheckBox("tiling (tier-2, dense fields; slower)")
@@ -99,8 +103,8 @@ class OrchestratorDock(QWidget):
         layout.addStretch()
 
     # --- helpers ----------------------------------------------------------
-    def _tier(self) -> int:
-        return 1 if self.tier_combo.currentIndex() == 0 else 2
+    def _tier(self):
+        return {0: 1, 1: 2, 2: "auto"}[self.tier_combo.currentIndex()]
 
     def _nm_per_px(self) -> float | None:
         txt = self.nmpx_edit.text().strip()
@@ -123,17 +127,18 @@ class OrchestratorDock(QWidget):
             self.status.setText("Pick an image folder first.")
             return
         tier = self._tier()
-        if tier == 2 and not Path(TIER2_PYTHON).exists():
-            self.status.setText(f"Tier-2 needs the tem-tier2 env python:\n{TIER2_PYTHON}\n"
+        if tier in (2, "auto") and not Path(_tier2_python()).exists():
+            self.status.setText(f"Tier-2 / Auto needs a torch env with npsam:\n{TIER2_PYTHON}\n"
                                 "(install it or set TEM_TIER2_PYTHON), or use Tier 1.")
             return
         self.run_dir = default_run_dir(self.folder, tier)
         cmd = batch_engine_command(
             self.folder, self.run_dir, tier,
-            tiling=(self.tiling_check.isChecked() if tier == 2 else None),
+            tiling=(self.tiling_check.isChecked() if tier in (2, "auto") else None),
             nm_per_px=self._nm_per_px(),
         )
-        note = " (tier-2 in tem-tier2; first frame loads the model)" if tier == 2 else ""
+        note = {2: " (tier-2 via torch env; first frame loads the model)",
+                "auto": " (auto: tier-1 base, escalating crowded frames to tier-2)"}.get(tier, "")
         self.status.setText(f"Segmenting {self._n_total} frame(s), tier {tier}{note}…")
         self.b_seg.setEnabled(False)
         worker = _run_engine(cmd)
